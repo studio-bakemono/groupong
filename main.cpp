@@ -1,8 +1,17 @@
 #include <SFML/Graphics.hpp>
 
+#include <cstdint>
+
+const uint16_t WINDOW_WIDTH = 800;
+const uint16_t WINDOW_HEIGHT = 600;
+
+
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "pong!");
+
+
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
