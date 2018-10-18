@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(SFMLTest)
+project(Groupong)
 
 ## If you want to link SFML statically
 # set(SFML_STATIC_LIBRARIES TRUE)
@@ -9,5 +9,5 @@ project(SFMLTest)
 # set(SFML_DIR "<sfml root prefix>/lib/cmake/SFML")
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
-add_executable(SFMLTest main.cpp)
-target_link_libraries(SFMLTest sfml-graphics sfml-audio)
+add_executable(Groupong main.cpp)
+target_link_libraries(Groupong sfml-graphics sfml-audio)
