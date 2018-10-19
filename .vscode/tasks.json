@@ -10,7 +10,10 @@
                 "command": "cd build && make"
             },
             "windows": {
-                "command": "cd build && mingw32-make"
+                "command": "cmd /c ${workspaceFolder}\\.vscode\\build.bat",
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                }
             },
             "group": {
                 "kind": "build",
