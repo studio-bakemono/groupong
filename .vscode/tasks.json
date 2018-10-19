@@ -7,7 +7,10 @@
             "label": "Build game",
             "type": "shell",
             "linux": {
-                "command": "cd build && make"
+                "command": "cmake .. && make",
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                }
             },
             "windows": {
                 "command": "cmd /c ${workspaceFolder}\\.vscode\\build.bat",

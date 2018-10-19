@@ -9,8 +9,8 @@
             "type": "cppdbg",
             "request": "launch",
             "linux": {
-                "cwd": "${workspaceFolder}/build/",
-                "program": "Groupong",
+                "cwd": "${workspaceFolder}",
+                "program": "build/Groupong",
             },
             "windows": {
                 "cwd": "${workspaceFolder}\\build\\",
