@@ -40,11 +40,13 @@ int main()
       }
     }
 
-      
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+    //only move if paddle will stay on screen
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && 
+    paddle.getPosition().y > 0) {
       paddle.move(sf::Vector2f(0,-5));
     }
-     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+    paddle.getPosition().y < window.getSize().y - paddle.getSize().y) {
       paddle.move(sf::Vector2f(0,5));
     }
       
