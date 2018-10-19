@@ -27,7 +27,7 @@ build_script:
 
     mkdir dist\Groupong
 
-    xcopy /y build\Groupong.exe dist\Groupong
+    xcopy /y build\pong.exe dist\Groupong
 
     xcopy /y SFML-2.5.0\bin\*.dll dist\Groupong
 

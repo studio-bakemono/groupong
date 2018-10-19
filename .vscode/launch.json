@@ -10,11 +10,11 @@
             "request": "launch",
             "linux": {
                 "cwd": "${workspaceFolder}",
-                "program": "build/Groupong",
+                "program": "build/pong",
             },
             "windows": {
                 "cwd": "${workspaceFolder}\\build\\",
-                "program": "${workspaceFolder}\\build\\Groupong.exe",
+                "program": "${workspaceFolder}\\build\\pong.exe",
                 "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe"
             },
             "args": [],
