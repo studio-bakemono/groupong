@@ -16,18 +16,21 @@ int main()
 
   window.setFramerateLimit(FRAME_RATE);
   
-  // Test paddle
-  sf::RectangleShape paddle;
-  paddle.setSize(sf::Vector2f(20, 100));
-  paddle.setPosition(sf::Vector2f(10, 20));
-  paddle.setFillColor(sf::Color::Red);
-  
+  // Player paddle
+  sf::RectangleShape playerPaddle;
+  playerPaddle.setSize(sf::Vector2f(20, 100));
+  playerPaddle.setPosition(sf::Vector2f(10, 20));
+  playerPaddle.setFillColor(sf::Color::Red);
 
-  sf::Clock frameclock;
+  
+  sf::RectangleShape AiPaddle;
+  AiPaddle.setSize(sf::Vector2f(20, 100));
+  // Set AiPaddle in the middle of it's range
+  AiPaddle.setPosition(sf::Vector2f(WINDOW_WIDTH - (10+AiPaddle.getSize().x), WINDOW_HEIGHT/2 -(AiPaddle.getSize().y/2)) );
+  AiPaddle.setFillColor(sf::Color::Red);
+  
   
   while (window.isOpen()) {
-    
-    frameclock.restart();
       
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -40,17 +43,20 @@ int main()
       }
     }
 
-      
+    // Update logic goes here. The reason why is that if we make these update calls
+    // inside the pollEvent loop it will not create smooth movement/updating.
+    
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-      paddle.move(sf::Vector2f(0,-5));
+      playerPaddle.move(sf::Vector2f(0,-5));
     }
      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-      paddle.move(sf::Vector2f(0,5));
+      playerPaddle.move(sf::Vector2f(0,5));
     }
       
       
     window.clear();
-    window.draw(paddle);
+    window.draw(playerPaddle);
+    window.draw(AiPaddle);
     window.display();
   }
 
