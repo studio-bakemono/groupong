@@ -8,7 +8,9 @@ project(groupong)
 ## In most cases better set in the CMake cache
 # set(SFML_DIR "<sfml root prefix>/lib/cmake/SFML")
 
+file(GLOB SOURCES "*.cpp")
+
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
-add_executable(pong main.cpp)
+add_executable(pong ${SOURCES} )
 target_link_libraries(pong sfml-graphics sfml-audio)
