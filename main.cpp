@@ -6,6 +6,7 @@
 
 
 #include "Paddle.hpp"
+#include "PlayerPaddle.hpp"
 
 const uint16_t WINDOW_WIDTH = 800;
 const uint16_t WINDOW_HEIGHT = 600;
@@ -20,7 +21,7 @@ int main()
   window.setFramerateLimit(FRAME_RATE);
 
 
-  Paddle playerPaddle( WINDOW_WIDTH, WINDOW_HEIGHT,
+  PlayerPaddle playerPaddle( WINDOW_WIDTH, WINDOW_HEIGHT,
 		       Side::LEFT,
 		       sf::Vector2f(20, 100),
 		       sf::Color::Red );

@@ -8,12 +8,13 @@ enum Side {
 };
 
 class Paddle {
-private:
+public:
   sf::RectangleShape rect;
 
 public:
 
-  Paddle( int WINDOW_WIDTH, int WINDOW_HEIGHT, Side side, sf::Vector2f size, sf::Color color = sf::Color::Cyan ) {
+  explicit Paddle( int WINDOW_WIDTH, int WINDOW_HEIGHT,
+		   Side side, sf::Vector2f size, sf::Color color = sf::Color::Cyan ) {
     rect.setSize(size);
     rect.setFillColor(color);
 
@@ -24,7 +25,7 @@ public:
     
   }
   
-  void update(sf::RenderWindow& window);
+  virtual void update(sf::RenderWindow& window);
   void render(sf::RenderWindow& window);
   
 };
