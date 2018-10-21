@@ -12,20 +12,30 @@ public:
   sf::RectangleShape rect;
 
 public:
+  // Default colour to cyan, default position to zero. Position is at the end as
+  // not to confuse the constuctor with multiple sf::Vector2f values (which it will) 
+  explicit Paddle( sf::Vector2f size, sf::Color color = sf::Color::Cyan,
+		   sf::Vector2f position = sf::Vector2f(0,0) ) {
 
-  explicit Paddle( int WINDOW_WIDTH, int WINDOW_HEIGHT,
-		   Side side, sf::Vector2f size, sf::Color color = sf::Color::Cyan ) {
     rect.setSize(size);
     rect.setFillColor(color);
-
-    if (side == Side::LEFT)
-      rect.setPosition( 10, WINDOW_HEIGHT/2 - (rect.getSize().y/2) );
-    else if ( side == Side::RIGHT )
-      rect.setPosition( WINDOW_WIDTH - (10+rect.getSize().x), WINDOW_HEIGHT/2 - (rect.getSize().y/2) );
+    rect.setPosition( position );
     
   }
-  
+
   virtual void update(sf::RenderWindow& window);
   void render(sf::RenderWindow& window);
+
+  inline void setPosition(sf::Vector2f position) {
+    rect.setPosition(position);
+  }
+
+  inline sf::Vector2f getPosition() {
+    return rect.getPosition();
+  }
+
+  inline sf::Vector2f getSize() {
+    return rect.getSize();
+  }
   
 };

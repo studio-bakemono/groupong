@@ -21,15 +21,20 @@ int main()
   window.setFramerateLimit(FRAME_RATE);
 
 
-  PlayerPaddle playerPaddle( WINDOW_WIDTH, WINDOW_HEIGHT,
-		       Side::LEFT,
-		       sf::Vector2f(20, 100),
-		       sf::Color::Red );
+  // Set up paddles:
+  // Each paddle's position is set seperately from constructor since it's position is
+  // dependent on it's own size, which is set in the constructor.
 
-  Paddle AIpaddle ( WINDOW_WIDTH, WINDOW_HEIGHT,
-		    Side::RIGHT,
-		    sf::Vector2f(20, 100),
-		    sf::Color::Blue );
+  PlayerPaddle playerPaddle( sf::Vector2f(20, 100),
+			     sf::Color::Red
+			     );
+  playerPaddle.setPosition(sf::Vector2f( 20, (WINDOW_HEIGHT/2 - (playerPaddle.getSize().y/2)) ));
+  
+  Paddle AIpaddle ( sf::Vector2f(20, 100),
+		    sf::Color::Blue
+		    );
+  AIpaddle.setPosition( sf::Vector2f(WINDOW_WIDTH - (20+AIpaddle.getSize().x),
+				     WINDOW_HEIGHT/2 - (AIpaddle.getSize().y/2) ));
 
 
   
