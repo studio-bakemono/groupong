@@ -12,16 +12,17 @@ public:
   sf::CircleShape circle;
   sf::FloatRect collider;
 
-  float speed;
+  sf::Vector2f velocity;
   
 public:
 
-  Ball(sf::Vector2f position = sf::Vector2f(0,0), int radius = 30, float speed = 2):
+  Ball(sf::Vector2f position = sf::Vector2f(0,0), int radius = 30, 
+    sf::Vector2f velocity = sf::Vector2f(-2,-2)):
     position(position),
-    speed(speed)
+    velocity(velocity)
   {
     circle.setRadius(radius);
-    collider = sf::FloatRect(position, sf::Vector2f(radius, radius));
+    collider = sf::FloatRect(position, sf::Vector2f(2*radius, 2*radius));
   }
   
   

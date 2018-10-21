@@ -86,9 +86,32 @@ int main()
     
     playerPaddle.update(window);
     AIpaddle.update(window);
+
+    // Colision detection
+    if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
+        AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
+      //unsure exactly how velocity will change, fix this later
+      ball.velocity.x *= -1; 
+      ball.velocity.y *= -1;
+    }
+    if (ball.collider.top < 0 || ball.collider.top + ball.collider.height
+     > WINDOW_HEIGHT) {
+      ball.velocity.y *= -1;
+    }
+
     ball.update(window);
-
-
+    
+    //Score update
+    if(ball.collider.left > WINDOW_WIDTH) {
+      score_player_1 += 1;
+      score_text_player_1.setString(std::to_string(score_player_1));
+      //replace ball
+    }
+    if(ball.collider.left - ball.collider.width < 0) {
+      score_player_2 += 1;
+      score_text_player_2.setString(std::to_string(score_player_2));
+      //replace ball
+    }
 
     // Render
     window.clear();
