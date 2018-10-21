@@ -7,6 +7,7 @@
 
 #include "Paddle.hpp"
 #include "PlayerPaddle.hpp"
+#include "Ball.hpp"
 
 const uint16_t WINDOW_WIDTH = 800;
 const uint16_t WINDOW_HEIGHT = 600;
@@ -37,6 +38,8 @@ int main()
 				     WINDOW_HEIGHT/2 - (AIpaddle.getSize().y/2) ));
 
 
+
+  Ball ball(sf::Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2));
   
   while (window.isOpen()) {
       
@@ -52,13 +55,21 @@ int main()
     }
   
 
+    // Update 
+    
     playerPaddle.update(window);
     AIpaddle.update(window);
+    ball.update(window);
 
-    
+
+
+    // Render
     window.clear();
+    
     playerPaddle.render(window);
     AIpaddle.render(window);
+    ball.render(window);
+
     window.display();
   }
 
