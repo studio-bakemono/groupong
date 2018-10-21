@@ -102,12 +102,12 @@ int main()
     ball.update(window);
     
     //Score update
-    if(ball.collider.left > WINDOW_WIDTH) {
+    if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
       score_player_1 += 1;
       score_text_player_1.setString(std::to_string(score_player_1));
       //replace ball
     }
-    if(ball.collider.left - ball.collider.width < 0) {
+    if(ball.collider.left  < 0) {
       score_player_2 += 1;
       score_text_player_2.setString(std::to_string(score_player_2));
       //replace ball
