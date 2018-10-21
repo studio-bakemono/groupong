@@ -7,7 +7,7 @@
             "label": "Build game",
             "type": "shell",
             "linux": {
-                "command": "cmake .. && make",
+                "command": "cp -r ../assets . && cmake .. && make",
                 "options": {
                     "cwd": "${workspaceFolder}/build"
                 }

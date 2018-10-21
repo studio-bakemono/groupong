@@ -5,3 +5,4 @@ cmake -G "MinGW Makefiles" ..
 mingw32-make
 
 xcopy /y ..\SFML\bin\*.dll .\
+xcopy /y ..\assets .\
