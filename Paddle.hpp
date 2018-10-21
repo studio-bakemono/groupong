@@ -2,10 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 
-enum Side {
-  LEFT = 0,
-  RIGHT = 1
-};
 
 class Paddle {
 public:
@@ -26,6 +22,7 @@ public:
   virtual void update(sf::RenderWindow& window);
   void render(sf::RenderWindow& window);
 
+  
   inline void setPosition(sf::Vector2f position) {
     rect.setPosition(position);
   }
