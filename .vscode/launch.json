@@ -8,9 +8,10 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
+            "preLaunchTask": "Build game",
             "linux": {
-                "cwd": "${workspaceFolder}",
-                "program": "build/pong",
+                "cwd": "${workspaceFolder}/build",
+                "program": "${workspaceFolder}/build/pong",
             },
             "windows": {
                 "cwd": "${workspaceFolder}\\build\\",
@@ -19,7 +20,6 @@
             },
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
