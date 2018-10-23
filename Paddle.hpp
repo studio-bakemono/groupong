@@ -2,11 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <cstdint>
 
 class Paddle {
 public:
   sf::RectangleShape rect;
 
+  uint16_t score = 0;
+  
 public:
   // Default colour to cyan, default position to zero. Position is at the end as
   // not to confuse the constuctor with multiple sf::Vector2f values (which it will) 
@@ -33,6 +36,14 @@ public:
 
   inline sf::Vector2f getSize() {
     return rect.getSize();
+  }
+
+  inline sf::Color getColor() {
+    return rect.getFillColor();
+  }
+  
+  inline void setColor(sf::Color color) {
+    rect.setFillColor(color);
   }
   
 };
