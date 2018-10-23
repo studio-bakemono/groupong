@@ -10,7 +10,7 @@
 #include "PlayerPaddle.hpp"
 #include "Ball.hpp"
 #include "Scoreboard.hpp"
-
+#include "AIPaddle.hpp"
 const uint16_t WINDOW_WIDTH = 800;
 const uint16_t WINDOW_HEIGHT = 600;
 
@@ -43,7 +43,7 @@ int main()
   
   playerPaddle.setPosition(sf::Vector2f( 20, (WINDOW_HEIGHT/2 - (playerPaddle.getSize().y/2)) ));
   
-  Paddle AIpaddle ( sf::Vector2f(20, 100),
+  AIPaddle AIpaddle ( sf::Vector2f(20, 100),
 		    sf::Color::Blue
 		    );
   
