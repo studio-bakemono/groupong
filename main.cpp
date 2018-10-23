@@ -9,6 +9,7 @@
 #include "Paddle.hpp"
 #include "PlayerPaddle.hpp"
 #include "Ball.hpp"
+#include "Scoreboard.hpp"
 
 const uint16_t WINDOW_WIDTH = 800;
 const uint16_t WINDOW_HEIGHT = 600;
@@ -20,7 +21,6 @@ int main()
 {
 
   sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "pong!");
-
   window.setFramerateLimit(FRAME_RATE);
 
   // Load the font used in the game
@@ -29,38 +29,24 @@ int main()
     std::cout << "Error loading font\n";
   }
 
-  // Player 1 attributes
-  int score_player_1 = 0;
-  sf::Color color_player_1 = sf::Color::Red;
-  sf::Text score_text_player_1;
-  score_text_player_1.setPosition(WINDOW_WIDTH / 4, 10);
-  score_text_player_1.setFont(font);
-  score_text_player_1.setFillColor(color_player_1);
-  score_text_player_1.setCharacterSize(48); // in pixels, not points!
-  score_text_player_1.setString(std::to_string(score_player_1));
-
-  // Player 2 / AI attributes
-  int score_player_2 = 0;
-  sf::Color color_player_2 = sf::Color::Blue;
-  sf::Text score_text_player_2;
-  score_text_player_2.setPosition(WINDOW_WIDTH - WINDOW_WIDTH / 4, 10);
-  score_text_player_2.setFont(font);
-  score_text_player_2.setFillColor(color_player_2);
-  score_text_player_2.setCharacterSize(48); // in pixels, not points!
-  score_text_player_2.setString(std::to_string(score_player_2));
-
+  // Pass font along to scoreboard
+  Scoreboard scoreboard(window, font);
+  
+  
   // Set up paddles:
   // Each paddle's position is set seperately from constructor since it's position is
   // dependent on it's own size, which is set in the constructor.
 
   PlayerPaddle playerPaddle( sf::Vector2f(20, 100),
-			     color_player_1
+			     sf::Color::Red
 			     );
+  
   playerPaddle.setPosition(sf::Vector2f( 20, (WINDOW_HEIGHT/2 - (playerPaddle.getSize().y/2)) ));
   
   Paddle AIpaddle ( sf::Vector2f(20, 100),
-		    color_player_2
+		    sf::Color::Blue
 		    );
+  
   AIpaddle.setPosition( sf::Vector2f(WINDOW_WIDTH - (20+AIpaddle.getSize().x),
 				     WINDOW_HEIGHT/2 - (AIpaddle.getSize().y/2) ));
 
@@ -86,9 +72,28 @@ int main()
     
     playerPaddle.update(window);
     AIpaddle.update(window);
+
+    // Colision detection
+    if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
+        AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
+      //unsure exactly how velocity will change, fix this later
+      ball.velocity.x *= -1; 
+      ball.velocity.y *= -1;
+    }
+    if (ball.collider.top < 0 || ball.collider.top + ball.collider.height
+     > WINDOW_HEIGHT) {
+      ball.velocity.y *= -1;
+    }
+
     ball.update(window);
-
-
+    
+    //Score update
+    if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
+      scoreboard.updateScore(0);
+    }
+    if(ball.collider.left  < 0) {
+      scoreboard.updateScore(1);
+}
 
     // Render
     window.clear();
@@ -97,9 +102,7 @@ int main()
     AIpaddle.render(window);
     
     ball.render(window);
-    
-    window.draw(score_text_player_1);
-    window.draw(score_text_player_2);
+    scoreboard.render(window);
     
     window.display();
   }
