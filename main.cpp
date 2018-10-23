@@ -78,7 +78,7 @@ int main()
         AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
       //unsure exactly how velocity will change, fix this later
       ball.velocity.x *= -1; 
-      ball.velocity.y *= -1;
+      ball.velocity.y *= 1;
     }
     if (ball.collider.top < 0 || ball.collider.top + ball.collider.height
      > WINDOW_HEIGHT) {
