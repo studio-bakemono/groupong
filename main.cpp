@@ -90,18 +90,12 @@ int main()
     //Score update
     if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
       scoreboard.updateScore(0);
+      ball.reset(window);
       //should resetting it be a function inside ball?
-      ball.position.x = WINDOW_WIDTH/2;
-      ball.position.y = WINDOW_HEIGHT/2;
-      ball.velocity.x = 3;
-      ball.velocity.y = 3;
     }
     if(ball.collider.left  < 0) {
       scoreboard.updateScore(1);
-      ball.position.x = WINDOW_WIDTH/2;
-      ball.position.y = WINDOW_HEIGHT/2;
-      ball.velocity.x = 3;
-      ball.velocity.y = 3;
+      ball.reset(window);
     }
 
     // Render
