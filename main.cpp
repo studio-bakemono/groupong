@@ -15,7 +15,7 @@ const uint16_t WINDOW_WIDTH = 800;
 const uint16_t WINDOW_HEIGHT = 600;
 
 const uint16_t FRAME_RATE = 60;
-
+const float MAX_VELOCITY = 5.0;
 
 int main()
 {
@@ -77,8 +77,11 @@ int main()
     if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
         AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
       //unsure exactly how velocity will change, fix this later
-      ball.velocity.x *= -1; 
-      ball.velocity.y *= 1;
+      if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY){
+	      ball.velocity.x *= -1.1;
+	      ball.velocity.y *= 1.1;
+      } 
+      //ball.velocity.y *= 1;
     }
     if (ball.collider.top < 0 || ball.collider.top + ball.collider.height
      > WINDOW_HEIGHT) {

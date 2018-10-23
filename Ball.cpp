@@ -18,9 +18,11 @@ void Ball::render(sf::RenderWindow& window) {
 }
 
 void Ball::reset(sf::RenderWindow& window) {
+	//Want to have the ball only have specific speeds (Not zero)
+	static int table[] = {-3, -2, -1, 1, 2, 3};
 	position.x = (window.getSize().x)/2;
 	position.y = (window.getSize().y)/2;
-	velocity.x = rand() %7 + (-3);
-	velocity.y = rand() %7 + (-3);
+	velocity.x = table[rand() %(sizeof table/ sizeof *table)];
+	velocity.y = table[rand() %(sizeof table/ sizeof *table)];
 }
 
