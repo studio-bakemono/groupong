@@ -1,9 +1,9 @@
 #include "Ball.hpp"
 
 
-void Ball::update(sf::RenderWindow& window) {
+void Ball::update(sf::RenderWindow& window, float frametime) {
 
-  position += velocity;
+  position += frametime*60.0f*velocity;
 
   
   circle.setPosition(position);

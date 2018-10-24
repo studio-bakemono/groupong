@@ -6,6 +6,7 @@
 #include <SFML/Audio.hpp>
 
 #include <cstdint>
+#include <cmath>
 #include <iostream>
 #include <string>
 
@@ -21,7 +22,6 @@
 const uint16_t WINDOW_WIDTH = 800;
 const uint16_t WINDOW_HEIGHT = 600;
 
-const uint16_t FRAME_RATE = 60;
 const float MAX_VELOCITY = 5.0;
 
 
@@ -29,7 +29,6 @@ int main()
 {
 
   sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "pong!");
-  window.setFramerateLimit(FRAME_RATE);
 
   // Load the font used in the game
   sf::Font font;
@@ -90,6 +89,8 @@ int main()
 
 
   Ball ball(sf::Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2));
+
+  sf::Clock clock;
   
   while ( window.isOpen() ) {
     if ( window.hasFocus() ) {
@@ -107,9 +108,10 @@ int main()
   
 
       // Update 
+      float frametime = float(clock.restart().asMicroseconds())/1000000.0f;
     
-      playerPaddle.update(window);
-      AIpaddle.update(window);
+      playerPaddle.update(window, frametime);
+      AIpaddle.update(window, frametime);
 
       // Colision detection
       if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
@@ -132,8 +134,9 @@ int main()
 	
 	//unsure exactly how velocity will change, fix this later
 	if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY){
-	  ball.velocity.x *= -1.5f;
-	  ball.velocity.y *= 1.5f;
+    float factor = pow(1.5f, frametime);
+	  ball.velocity.x *= -factor;
+	  ball.velocity.y *= factor;
 	  sound_hit_paddle.play();
 	}
 	else {
@@ -150,7 +153,7 @@ int main()
 	sound_hit_wall.play();
       }
 
-      ball.update(window);
+      ball.update(window, frametime);
       
     
       //Score update

@@ -23,7 +23,7 @@ public:
     
   }
 
-  virtual void update(sf::RenderWindow& window);
+  virtual void update(sf::RenderWindow& window, float frametime);
   void render(sf::RenderWindow& window);
 
   

@@ -26,7 +26,7 @@ public:
   }
   
   
-  void update(sf::RenderWindow& window);
+  void update(sf::RenderWindow& window, float frametime);
   void render(sf::RenderWindow& window);
   void reset(sf::RenderWindow& window);  
 };
