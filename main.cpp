@@ -10,12 +10,12 @@
 #include "PlayerPaddle.hpp"
 #include "Ball.hpp"
 #include "Scoreboard.hpp"
-
+#include "AIPaddle.hpp"
 const uint16_t WINDOW_WIDTH = 800;
 const uint16_t WINDOW_HEIGHT = 600;
 
 const uint16_t FRAME_RATE = 60;
-
+const float MAX_VELOCITY = 5.0;
 
 int main()
 {
@@ -43,7 +43,7 @@ int main()
   
   playerPaddle.setPosition(sf::Vector2f( 20, (WINDOW_HEIGHT/2 - (playerPaddle.getSize().y/2)) ));
   
-  Paddle AIpaddle ( sf::Vector2f(20, 100),
+  AIPaddle AIpaddle ( sf::Vector2f(20, 100),
 		    sf::Color::Blue
 		    );
   
@@ -77,8 +77,11 @@ int main()
     if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
         AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
       //unsure exactly how velocity will change, fix this later
-      ball.velocity.x *= -1; 
-      ball.velocity.y *= -1;
+      if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY){
+	      ball.velocity.x *= -1.1;
+	      ball.velocity.y *= 1.1;
+      } 
+      //ball.velocity.y *= 1;
     }
     if (ball.collider.top < 0 || ball.collider.top + ball.collider.height
      > WINDOW_HEIGHT) {
@@ -90,10 +93,13 @@ int main()
     //Score update
     if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
       scoreboard.updateScore(0);
+      ball.reset(window);
+      //should resetting it be a function inside ball?
     }
     if(ball.collider.left  < 0) {
       scoreboard.updateScore(1);
-}
+      ball.reset(window);
+    }
 
     // Render
     window.clear();
