@@ -11,11 +11,16 @@
 #include "Ball.hpp"
 #include "Scoreboard.hpp"
 #include "AIPaddle.hpp"
+
+
+#include "Util.hpp"
+
 const uint16_t WINDOW_WIDTH = 800;
 const uint16_t WINDOW_HEIGHT = 600;
 
 const uint16_t FRAME_RATE = 60;
 const float MAX_VELOCITY = 5.0;
+
 
 int main()
 {
@@ -54,63 +59,68 @@ int main()
 
   Ball ball(sf::Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2));
   
-  while (window.isOpen()) {
+  while ( window.isOpen() ) {
+    if ( window.hasFocus() ) {
       
-    sf::Event event;
-    while (window.pollEvent(event)) {
+      sf::Event event;
+      while (window.pollEvent(event)) {
 	
-      if (event.type == sf::Event::Closed) {
-	window.close();
+	if (event.type == sf::Event::Closed) {
+	  window.close();
+	}
+	else if (event.type == sf::Event::KeyPressed) {
+	  // std::cout << "Key pressed!" << std::endl; 
+	}
       }
-      else if (event.type == sf::Event::KeyPressed) {
-	// std::cout << "Key pressed!" << std::endl; 
-      }
-    }
   
 
-    // Update 
+      // Update 
     
-    playerPaddle.update(window);
-    AIpaddle.update(window);
+      playerPaddle.update(window);
+      AIpaddle.update(window);
 
-    // Colision detection
-    if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
-        AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
-      //unsure exactly how velocity will change, fix this later
-      if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY){
-	      ball.velocity.x *= -1.1;
-	      ball.velocity.y *= 1.1;
-      } 
-      //ball.velocity.y *= 1;
-    }
-    if (ball.collider.top < 0 || ball.collider.top + ball.collider.height
-     > WINDOW_HEIGHT) {
-      ball.velocity.y *= -1;
-    }
+      // Colision detection
+      if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
+	  AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
+	//unsure exactly how velocity will change, fix this later
+	if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY){
+	  ball.velocity.x *= -1.5f;
+	  ball.velocity.y *= 1.5f;
 
-    ball.update(window);
-    
-    //Score update
-    if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
-      scoreboard.updateScore(0);
-      ball.reset(window);
-      //should resetting it be a function inside ball?
-    }
-    if(ball.collider.left  < 0) {
-      scoreboard.updateScore(1);
-      ball.reset(window);
-    }
+	} 
+	//ball.velocity.y *= 1;
+      }
+      if (ball.collider.top < 0 || ball.collider.top + ball.collider.height
+	  > WINDOW_HEIGHT) {
+	ball.velocity.y *= -1;
+      }
 
-    // Render
-    window.clear();
+      ball.update(window);
+      //normalizeVec2f(ball.velocity);
+
     
-    playerPaddle.render(window);
-    AIpaddle.render(window);
+      //Score update
+      if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
+	scoreboard.updateScore(0);
+	ball.reset(window);
+	//should resetting it be a function inside ball?
+      }
+      if(ball.collider.left  < 0) {
+	scoreboard.updateScore(1);
+	ball.reset(window);
+      }
+
+      // Render
+      window.clear();
     
-    ball.render(window);
-    scoreboard.render(window);
+      playerPaddle.render(window);
+      AIpaddle.render(window);
     
-    window.display();
+      ball.render(window);
+      scoreboard.render(window);
+    
+      window.display();
+    }
   }
 
   return 0;
