@@ -28,7 +28,7 @@ const float MAX_VELOCITY = 5.0;
 int main()
 {
 
-  sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "pong!");
+  sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "pong!", sf::Style::Default, sf::ContextSettings(0, 0, 8));
   window.setFramerateLimit(FRAME_RATE);
 
   // Load the font used in the game
