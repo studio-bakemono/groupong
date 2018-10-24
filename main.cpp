@@ -11,9 +11,8 @@
 #include "Ball.hpp"
 #include "Scoreboard.hpp"
 #include "AIPaddle.hpp"
-
-
 #include "Util.hpp"
+#include "MiddleLine.hpp"
 
 const uint16_t WINDOW_WIDTH = 800;
 const uint16_t WINDOW_HEIGHT = 600;
@@ -33,6 +32,9 @@ int main()
   if(!font.loadFromFile("assets/AtariClassic-Regular.ttf")) {
     std::cout << "Error loading font\n";
   }
+
+  // Draw the line in the middle separating the players
+  MiddleLine middle_line(window);
 
   // Pass font along to scoreboard
   Scoreboard scoreboard(window, font);
@@ -116,10 +118,11 @@ int main()
       playerPaddle.render(window);
       AIpaddle.render(window);
     
-      ball.render(window);
-      scoreboard.render(window);
-    
-      window.display();
+    ball.render(window);
+    scoreboard.render(window);
+    middle_line.render(window);
+
+    window.display();
     }
   }
 
