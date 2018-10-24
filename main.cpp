@@ -1,5 +1,6 @@
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include <cstdint>
 #include <iostream>
@@ -31,10 +32,36 @@ int main()
   sf::Font font;
   if(!font.loadFromFile("assets/AtariClassic-Regular.ttf")) {
     std::cout << "Error loading font\n";
+    return -1;
   }
 
   // Draw the line in the middle separating the players
   MiddleLine middle_line(window);
+  sf::SoundBuffer buffer_hit_paddle;
+  sf::SoundBuffer buffer_miss_ball;
+  sf::SoundBuffer buffer_hit_wall;
+
+  if (!buffer_hit_paddle.loadFromFile("assets/ping_pong_8bit_beeep.wav")) {
+    std::cout << "Error loading sound\n";
+    return -1;
+  }
+
+  if (!buffer_miss_ball.loadFromFile("assets/ping_pong_8bit_peeeeeep.wav")) {
+    std::cout << "Error loading sound\n";
+    return -1;
+  }
+
+  if (!buffer_hit_wall.loadFromFile("assets/ping_pong_8bit_plop.wav")) {
+    std::cout << "Error loading sound\n";
+    return -1;
+  }
+
+  sf::Sound sound_hit_paddle;
+  sound_hit_paddle.setBuffer(buffer_hit_paddle);
+  sf::Sound sound_miss_ball;
+  sound_miss_ball.setBuffer(buffer_miss_ball);
+  sf::Sound sound_hit_wall;
+  sound_hit_wall.setBuffer(buffer_hit_wall);
 
   // Pass font along to scoreboard
   Scoreboard scoreboard(window, font);
@@ -88,13 +115,14 @@ int main()
 	if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY){
 	  ball.velocity.x *= -1.5f;
 	  ball.velocity.y *= 1.5f;
-
+    sound_hit_paddle.play();
 	} 
 	//ball.velocity.y *= 1;
       }
       if (ball.collider.top < 0 || ball.collider.top + ball.collider.height
 	  > WINDOW_HEIGHT) {
 	ball.velocity.y *= -1;
+  sound_hit_wall.play();
       }
 
       ball.update(window);
@@ -105,11 +133,13 @@ int main()
       if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
 	scoreboard.updateScore(0);
 	ball.reset(window);
+  sound_miss_ball.play();
 	//should resetting it be a function inside ball?
       }
       if(ball.collider.left  < 0) {
 	scoreboard.updateScore(1);
 	ball.reset(window);
+  sound_miss_ball.play();
       }
 
       // Render
