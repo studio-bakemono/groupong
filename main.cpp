@@ -1,3 +1,6 @@
+/*
+  Studio Bakemono, 2018
+*/
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -78,8 +81,8 @@ int main()
   playerPaddle.setPosition(sf::Vector2f( 20, (WINDOW_HEIGHT/2 - (playerPaddle.getSize().y/2)) ));
   
   AIPaddle AIpaddle ( sf::Vector2f(20, 100),
-		    sf::Color::Blue
-		    );
+		      sf::Color::Blue
+		      );
   
   AIpaddle.setPosition( sf::Vector2f(WINDOW_WIDTH - (20+AIpaddle.getSize().x),
 				     WINDOW_HEIGHT/2 - (AIpaddle.getSize().y/2) ));
@@ -111,35 +114,56 @@ int main()
       // Colision detection
       if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
 	  AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
+
+
+	sf::FloatRect collision;
+
+	if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider, collision)) {
+	  // Debug printing
+	  std::cout << "PlayerPaddle Collision: [ x: "<< collision.left << " y: " << collision.top << " "
+		    << " w :" << collision.width << " h: " << collision.height << "]" << std::endl;
+	}
+
+	if (AIpaddle.rect.getGlobalBounds().intersects(ball.collider, collision)) {
+	  // Debug printing
+	  std::cout << "AIPaddle Collision: [ x: "<< collision.left << " y: " << collision.top << " "
+		    << " w :" << collision.width << " h: " << collision.height << "]" << std::endl;
+	}
+	
 	//unsure exactly how velocity will change, fix this later
 	if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY){
 	  ball.velocity.x *= -1.5f;
 	  ball.velocity.y *= 1.5f;
-    sound_hit_paddle.play();
-	} 
+	  sound_hit_paddle.play();
+	}
+	else {
+	  ball.velocity.x *= -1.f;
+	  ball.velocity.y *= 1.f;
+	  sound_hit_paddle.play();
+	}
 	//ball.velocity.y *= 1;
       }
-      if (ball.collider.top < 0 || ball.collider.top + ball.collider.height
-	  > WINDOW_HEIGHT) {
+
+      //
+      if (ball.collider.top < 0 || ball.collider.top + ball.collider.height > WINDOW_HEIGHT) {
 	ball.velocity.y *= -1;
-  sound_hit_wall.play();
+	sound_hit_wall.play();
       }
 
       ball.update(window);
-      //normalizeVec2f(ball.velocity);
-
+      
     
       //Score update
       if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
 	scoreboard.updateScore(0);
 	ball.reset(window);
-  sound_miss_ball.play();
+	sound_miss_ball.play();
 	//should resetting it be a function inside ball?
       }
       if(ball.collider.left  < 0) {
 	scoreboard.updateScore(1);
 	ball.reset(window);
-  sound_miss_ball.play();
+	sound_miss_ball.play();
       }
 
       // Render
@@ -148,11 +172,11 @@ int main()
       playerPaddle.render(window);
       AIpaddle.render(window);
     
-    ball.render(window);
-    scoreboard.render(window);
-    middle_line.render(window);
+      ball.render(window);
+      scoreboard.render(window);
+      middle_line.render(window);
 
-    window.display();
+      window.display();
     }
   }
 

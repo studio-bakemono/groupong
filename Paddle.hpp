@@ -7,6 +7,7 @@
 class Paddle {
 public:
   sf::RectangleShape rect;
+  
 
   uint16_t score = 0;
   
