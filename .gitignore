@@ -36,9 +36,6 @@
 *.gitignore~
 *makefile~
 
-# Visual Studio Code Project Directory
-.vscode
-
 #don't push contents of build or SFML, it's all junk
 build/*
 SFML/*
