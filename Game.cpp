@@ -6,8 +6,8 @@
 World::World(){}
 
 World::World(sf::Font &font) : scoreboard(font),
-    playerPaddle(sf::Vector2f(20, 100), sf::Color::Red),
-    aiPaddle(sf::Vector2f(20, 100), sf::Color::Blue),
+    playerPaddle(sf::Vector2f(20, 100), sf::Color::Red, sf::Keyboard::W, sf::Keyboard::S),
+    aiPaddle(sf::Vector2f(20, 100), sf::Color::Blue, sf::Keyboard::Up, sf::Keyboard::Down),
     ball(sf::Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)){
     // Set up paddles:
     // Each paddle's position is set seperately from constructor since it's position is

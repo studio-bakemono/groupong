@@ -15,7 +15,6 @@
 #include "AIPaddle.hpp"
 
 #include "Paddle.hpp"
-#include "PlayerPaddle.hpp"
 #include "Ball.hpp"
 #include "Scoreboard.hpp"
 #include "AIPaddle.hpp"
@@ -28,7 +27,7 @@ struct World{
     void update();
 
     Scoreboard scoreboard;
-    PlayerPaddle playerPaddle;
+    Paddle playerPaddle;
     AIPaddle aiPaddle;
     Ball ball;
     int consecutiveCollisions;
