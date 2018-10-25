@@ -9,7 +9,6 @@ public:
   sf::RectangleShape rect;
   sf::Keyboard::Key upKey;
   sf::Keyboard::Key downKey;
-  int speed;
   uint16_t score = 0;
   
 public:
@@ -18,8 +17,7 @@ public:
   explicit Paddle( sf::Vector2f size, sf::Color color = sf::Color::Cyan,
        sf::Keyboard::Key upKey = sf::Keyboard::Tilde,
        sf::Keyboard::Key downKey = sf::Keyboard::Tilde, 
-       sf::Vector2f position = sf::Vector2f(0,0),
-       int speed = 5) {
+       sf::Vector2f position = sf::Vector2f(0,0)) {
 
     rect.setSize(size);
     rect.setFillColor(color);
@@ -59,15 +57,5 @@ public:
     downKey = key;
   }
   
-  void update(sf::RenderWindow& window) {
-    //only move if paddle will stay on screen
-    if (sf::Keyboard::isKeyPressed(upKey) && 
-	rect.getPosition().y > 0) {
-      rect.move(sf::Vector2f(0,-speed));
-    }
-    if (sf::Keyboard::isKeyPressed(downKey) &&
-	rect.getPosition().y < window.getSize().y - rect.getSize().y) {
-      rect.move(sf::Vector2f(0,speed));
-    }
-  }
+  virtual void update(sf::RenderWindow& window);
 };

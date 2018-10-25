@@ -11,7 +11,6 @@
 
 
 #include "Paddle.hpp"
-#include "PlayerPaddle.hpp"
 #include "Ball.hpp"
 #include "Scoreboard.hpp"
 #include "AIPaddle.hpp"
