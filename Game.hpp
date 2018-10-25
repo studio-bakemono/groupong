@@ -17,6 +17,11 @@
 #include "Util.hpp"
 #include "MiddleLine.hpp"
 
+class World{
+public:
+    explicit World(sf::Font &);
+
+};
 
 class Game{
 public:

@@ -5,8 +5,8 @@
 #include "config.hpp"
 
 Game::Game(sf::RenderWindow &window, sf::Font &font) :
-        middle_line(window),
-        scoreboard(window, font),
+        middle_line(),
+        scoreboard(font),
         playerPaddle(sf::Vector2f(20, 100), sf::Color::Red),
         aiPaddle(sf::Vector2f(20, 100), sf::Color::Blue),
         ball(sf::Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2))

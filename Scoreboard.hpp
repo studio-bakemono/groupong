@@ -5,6 +5,9 @@
 #include <iostream>
 #include <cstdint>
 
+
+#include "config.hpp"
+
 class Scoreboard {
 public:
   
@@ -15,7 +18,7 @@ public:
 
 public:
 
-  Scoreboard(sf::RenderWindow& window, sf::Font& font) {
+  Scoreboard(sf::Font& font) {
     for (int i = 0; i < PLAYER_COUNT; i++ ) { 
       playerScore[i].setFont(font);
       playerScore[i].setFillColor(sf::Color::White);
@@ -24,9 +27,9 @@ public:
 
       // Conditionals to place the scores in the right location based on player number
       if (i == 0)
-	playerScore[i].setPosition(window.getSize().x / 4, 10);
+	playerScore[i].setPosition(WINDOW_WIDTH / 4, 10);
       else if (i == 1)
-	playerScore[i].setPosition(window.getSize().x - window.getSize().x / 4, 10);
+	playerScore[i].setPosition(WINDOW_WIDTH - WINDOW_WIDTH / 4, 10);
       
     }
   }

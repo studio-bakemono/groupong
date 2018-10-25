@@ -1,7 +1,9 @@
-#include <cstdint>
+/*
+  Studio Bakemono, 2018
+*/
 
-const uint16_t WINDOW_WIDTH = 800;
-const uint16_t WINDOW_HEIGHT = 600;
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
 
-const uint16_t FRAME_RATE = 60;
-const float MAX_VELOCITY = 5.0;
+#define FRAME_RATE 60
+#define MAX_VELOCITY 5.0f
