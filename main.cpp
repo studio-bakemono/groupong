@@ -113,18 +113,8 @@ int main()
     // Colision detection
     if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
 	  AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
-      //sf::FloatRect collision;
       consecutiveCollisions += 1;
-      // if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider, collision)) {
-      //   std::cout << "PlayerPaddle Collision: [ x: "<< collision.left << " y: " << collision.top << " "
-      //       << " w :" << collision.width << " h: " << collision.height << "]" << std::endl;
-      // }
-
-      // if (AIpaddle.rect.getGlobalBounds().intersects(ball.collider, collision)) {
-      //   // Debug printing
-      // std::cout << "AIPaddle Collision: [ x: "<< collision.left << " y: " << collision.top << " "
-      //     << " w :" << collision.width << " h: " << collision.height << "]" << std::endl;
-      // }
+      
       //unsure exactly how velocity will change, fix this later
       if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY &&
          ball.velocity.x > -MAX_VELOCITY && ball.velocity.y > -MAX_VELOCITY){
@@ -141,8 +131,7 @@ int main()
     } else {
       consecutiveCollisions = 0;
     }
-    //std::cout << "Collision width:" << debugWidthCheck << std::endl;
-      //
+
     if (ball.collider.top < 0 || ball.collider.top + ball.collider.height > WINDOW_HEIGHT) {
       ball.velocity.y *= -1;
       sound_hit_wall.play();
@@ -163,7 +152,6 @@ int main()
     if(ball.collider.left  < 0 || 
     (consecutiveCollisions > 1 && ball.collider.left < WINDOW_WIDTH / 2)) {
       consecutiveCollisions = 0;
-      std::cout << "Aloha!" << std::endl;
 	    scoreboard.updateScore(1);
     	ball.reset(window);
     	sound_miss_ball.play();
