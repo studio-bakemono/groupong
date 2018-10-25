@@ -37,7 +37,14 @@ void fixed_main(volatile bool *running, World **render_world, std::mutex *render
 int main()
 {
 
-  sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "pong!", sf::Style::Default, sf::ContextSettings(0, 0, 8));
+  sf::RenderWindow window(
+    sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
+    "pong!",
+    // No resize button on our window
+    sf::Style::Close,
+    // (feature we're not using, feature we're not using, AntiAliasing level 8, more optional args are unset..)
+    sf::ContextSettings(0, 0, 8)
+  );
 
   // Load the font used in the game
   sf::Font font;
@@ -52,7 +59,7 @@ int main()
   std::thread fixed_thread(fixed_main, &fixed_thread_running, &game.world, &game.world_mutex);
 
   while ( window.isOpen() ) {
-    if ( window.hasFocus() ) {
+  if ( window.hasFocus() ) {
       
       sf::Event event;
       while (window.pollEvent(event)) {

@@ -9,6 +9,10 @@
 #include <iostream>
 #include <string>
 
+#include "Paddle.hpp"
+#include "Ball.hpp"
+#include "Scoreboard.hpp"
+#include "AIPaddle.hpp"
 
 #include "Paddle.hpp"
 #include "PlayerPaddle.hpp"
@@ -27,6 +31,7 @@ struct World{
     PlayerPaddle playerPaddle;
     AIPaddle aiPaddle;
     Ball ball;
+    int consecutiveCollisions;
 };
 
 class Game{

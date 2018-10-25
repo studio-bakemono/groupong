@@ -48,24 +48,11 @@ void World::update(){
     // Colision detection
     if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
         aiPaddle.rect.getGlobalBounds().intersects(ball.collider)) {
-
-
-        sf::FloatRect collision;
-
-        if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider, collision)) {
-            // Debug printing
-            std::cout << "PlayerPaddle Collision: [ x: "<< collision.left << " y: " << collision.top << " "
-                << " w :" << collision.width << " h: " << collision.height << "]" << std::endl;
-        }
-
-        if (aiPaddle.rect.getGlobalBounds().intersects(ball.collider, collision)) {
-            // Debug printing
-            std::cout << "AIPaddle Collision: [ x: "<< collision.left << " y: " << collision.top << " "
-                << " w :" << collision.width << " h: " << collision.height << "]" << std::endl;
-        }
+        consecutiveCollisions += 1;
 
         //unsure exactly how velocity will change, fix this later
-        if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY){
+        if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY &&
+            ball.velocity.x > -MAX_VELOCITY && ball.velocity.y > -MAX_VELOCITY){
             ball.velocity.x *= -1.5f;
             ball.velocity.y *= 1.5f;
             //sound_hit_paddle.play();
@@ -75,9 +62,10 @@ void World::update(){
             //sound_hit_paddle.play();
         }
         //ball.velocity.y *= 1;
+    } else {
+        consecutiveCollisions = 0;
     }
 
-    //
     if (ball.collider.top < 0 || ball.collider.top + ball.collider.height > WINDOW_HEIGHT) {
         ball.velocity.y *= -1;
         //sound_hit_wall.play();
@@ -87,16 +75,20 @@ void World::update(){
 
 
     //Score update
-    if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
-        scoreboard.updateScore(0);
-        ball.reset();
-        //sound_miss_ball.play();
-        //should resetting it be a function inside ball?
+    if(ball.collider.left + ball.collider.width > WINDOW_WIDTH || 
+    (consecutiveCollisions > 1 && ball.collider.left > WINDOW_WIDTH / 2)) {
+	    consecutiveCollisions = 0;
+      scoreboard.updateScore(0);
+    	ball.reset();
+	    //sound_miss_ball.play();
+	    //should resetting it be a function inside ball?
     }
-    if(ball.collider.left  < 0) {
-        scoreboard.updateScore(1);
-        ball.reset();
-        //sound_miss_ball.play();
+    if(ball.collider.left  < 0 || 
+    (consecutiveCollisions > 1 && ball.collider.left < WINDOW_WIDTH / 2)) {
+      consecutiveCollisions = 0;
+	    scoreboard.updateScore(1);
+    	ball.reset();
+    	//sound_miss_ball.play();
     }
 }
 
