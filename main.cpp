@@ -94,7 +94,6 @@ int main()
 
 
   Ball ball(sf::Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2));
-  int consecutiveCollisions = 0;
   while ( window.isOpen() ) {
   if ( window.hasFocus() ) {
       
@@ -115,9 +114,8 @@ int main()
     AIpaddle.update(window);
     
     // Colision detection
-    if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
-	  AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
-      consecutiveCollisions += 1;
+    if ( ball.velocity.x < 0.0f && playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
+	  ball.velocity.x > 0.0f && AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
       
       //unsure exactly how velocity will change, fix this later
       if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY &&
@@ -132,8 +130,6 @@ int main()
         sound_hit_paddle.play();
       }
 	    //ball.velocity.y *= 1;
-    } else {
-      consecutiveCollisions = 0;
     }
 
     if (ball.collider.top < 0 || ball.collider.top + ball.collider.height > WINDOW_HEIGHT) {
@@ -145,17 +141,12 @@ int main()
       
     
     //Score update
-    if(ball.collider.left + ball.collider.width > WINDOW_WIDTH || 
-    (consecutiveCollisions > 1 && ball.collider.left > WINDOW_WIDTH / 2)) {
-	    consecutiveCollisions = 0;
+    if(ball.collider.left > WINDOW_WIDTH + ball.collider.width ) {
       scoreboard.updateScore(0);
     	ball.reset(window);
 	    sound_miss_ball.play();
-	    //should resetting it be a function inside ball?
     }
-    if(ball.collider.left  < 0 || 
-    (consecutiveCollisions > 1 && ball.collider.left < WINDOW_WIDTH / 2)) {
-      consecutiveCollisions = 0;
+    if(ball.collider.left + ball.collider.width < 0) {
 	    scoreboard.updateScore(1);
     	ball.reset(window);
     	sound_miss_ball.play();
