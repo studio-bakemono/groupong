@@ -11,7 +11,6 @@
 
 
 #include "Paddle.hpp"
-#include "PlayerPaddle.hpp"
 #include "Ball.hpp"
 #include "Scoreboard.hpp"
 #include "AIPaddle.hpp"
@@ -74,110 +73,99 @@ int main()
   // Each paddle's position is set seperately from constructor since it's position is
   // dependent on it's own size, which is set in the constructor.
 
-  PlayerPaddle playerPaddle( sf::Vector2f(20, 100),
-			     sf::Color::Red
+  Paddle playerPaddle( sf::Vector2f(20, 100),
+			     sf::Color::Red, sf::Keyboard::W, sf::Keyboard::S
 			     );
-  
   playerPaddle.setPosition(sf::Vector2f( 20, (WINDOW_HEIGHT/2 - (playerPaddle.getSize().y/2)) ));
-  
-  AIPaddle AIpaddle ( sf::Vector2f(20, 100),
-		      sf::Color::Blue
+
+  Paddle AIpaddle( sf::Vector2f(20, 100),
+		      sf::Color::Blue,sf::Keyboard::Up, sf::Keyboard::Down
 		      );
-  
   AIpaddle.setPosition( sf::Vector2f(WINDOW_WIDTH - (20+AIpaddle.getSize().x),
 				     WINDOW_HEIGHT/2 - (AIpaddle.getSize().y/2) ));
 
 
 
   Ball ball(sf::Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2));
-  
+  int consecutiveCollisions = 0;
   while ( window.isOpen() ) {
-    if ( window.hasFocus() ) {
+  if ( window.hasFocus() ) {
       
       sf::Event event;
-      while (window.pollEvent(event)) {
-	
-	if (event.type == sf::Event::Closed) {
-	  window.close();
-	}
-	else if (event.type == sf::Event::KeyPressed) {
-	  // std::cout << "Key pressed!" << std::endl; 
-	}
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) {
+        window.close();
       }
+      else if (event.type == sf::Event::KeyPressed) {
+      // std::cout << "Key pressed!" << std::endl; 
+      }
+    }
   
 
-      // Update 
+    // Update 
     
-      playerPaddle.update(window);
-      AIpaddle.update(window);
-
-      // Colision detection
-      if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
+    playerPaddle.update(window);
+    AIpaddle.update(window);
+    
+    // Colision detection
+    if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider) ||
 	  AIpaddle.rect.getGlobalBounds().intersects(ball.collider)) {
-
-
-	sf::FloatRect collision;
-
-	if (playerPaddle.rect.getGlobalBounds().intersects(ball.collider, collision)) {
-	  // Debug printing
-	  std::cout << "PlayerPaddle Collision: [ x: "<< collision.left << " y: " << collision.top << " "
-		    << " w :" << collision.width << " h: " << collision.height << "]" << std::endl;
-	}
-
-	if (AIpaddle.rect.getGlobalBounds().intersects(ball.collider, collision)) {
-	  // Debug printing
-	  std::cout << "AIPaddle Collision: [ x: "<< collision.left << " y: " << collision.top << " "
-		    << " w :" << collision.width << " h: " << collision.height << "]" << std::endl;
-	}
-	
-	//unsure exactly how velocity will change, fix this later
-	if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY){
-	  ball.velocity.x *= -1.5f;
-	  ball.velocity.y *= 1.5f;
-	  sound_hit_paddle.play();
-	}
-	else {
-	  ball.velocity.x *= -1.f;
-	  ball.velocity.y *= 1.f;
-	  sound_hit_paddle.play();
-	}
-	//ball.velocity.y *= 1;
+      consecutiveCollisions += 1;
+      
+      //unsure exactly how velocity will change, fix this later
+      if(ball.velocity.x < MAX_VELOCITY && ball.velocity.y < MAX_VELOCITY &&
+         ball.velocity.x > -MAX_VELOCITY && ball.velocity.y > -MAX_VELOCITY){
+        ball.velocity.x *= -1.5f;
+        ball.velocity.y *= 1.5f;
+        sound_hit_paddle.play();
       }
-
-      //
-      if (ball.collider.top < 0 || ball.collider.top + ball.collider.height > WINDOW_HEIGHT) {
-	ball.velocity.y *= -1;
-	sound_hit_wall.play();
+      else {
+        ball.velocity.x *= -1.f;
+        ball.velocity.y *= 1.f;
+        sound_hit_paddle.play();
       }
+	    //ball.velocity.y *= 1;
+    } else {
+      consecutiveCollisions = 0;
+    }
 
-      ball.update(window);
+    if (ball.collider.top < 0 || ball.collider.top + ball.collider.height > WINDOW_HEIGHT) {
+      ball.velocity.y *= -1;
+      sound_hit_wall.play();
+    }
+    
+    ball.update(window);
       
     
-      //Score update
-      if(ball.collider.left + ball.collider.width > WINDOW_WIDTH) {
-	scoreboard.updateScore(0);
-	ball.reset(window);
-	sound_miss_ball.play();
-	//should resetting it be a function inside ball?
-      }
-      if(ball.collider.left  < 0) {
-	scoreboard.updateScore(1);
-	ball.reset(window);
-	sound_miss_ball.play();
-      }
-
-      // Render
-      window.clear();
-    
-      playerPaddle.render(window);
-      AIpaddle.render(window);
-    
-      ball.render(window);
-      scoreboard.render(window);
-      middle_line.render(window);
-
-      window.display();
+    //Score update
+    if(ball.collider.left + ball.collider.width > WINDOW_WIDTH || 
+    (consecutiveCollisions > 1 && ball.collider.left > WINDOW_WIDTH / 2)) {
+	    consecutiveCollisions = 0;
+      scoreboard.updateScore(0);
+    	ball.reset(window);
+	    sound_miss_ball.play();
+	    //should resetting it be a function inside ball?
     }
+    if(ball.collider.left  < 0 || 
+    (consecutiveCollisions > 1 && ball.collider.left < WINDOW_WIDTH / 2)) {
+      consecutiveCollisions = 0;
+	    scoreboard.updateScore(1);
+    	ball.reset(window);
+    	sound_miss_ball.play();
+    }
+
+    // Render
+    window.clear();
+    
+    playerPaddle.render(window);
+    AIpaddle.render(window);
+    
+    ball.render(window);
+    scoreboard.render(window);
+    middle_line.render(window);
+
+    window.display();
+  }
   }
 
   return 0;
