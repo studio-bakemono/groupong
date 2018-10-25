@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 
 #include <cstdint>
+#include <mutex>
 #include <iostream>
 #include <string>
 
@@ -17,18 +18,28 @@
 #include "Util.hpp"
 #include "MiddleLine.hpp"
 
-class World{
-public:
-    explicit World(sf::Font &);
+struct World{
+    World();
+    World(sf::Font &);
+    void update();
 
+    Scoreboard scoreboard;
+    PlayerPaddle playerPaddle;
+    AIPaddle aiPaddle;
+    Ball ball;
 };
 
 class Game{
 public:
     explicit Game(sf::RenderWindow &, sf::Font &);
+    Game();
+    ~Game();
 
-    void update(sf::RenderWindow &);
+    void update();
     void render(sf::RenderWindow &);
+
+    World *world;
+    std::mutex world_mutex;
 
 private:
     MiddleLine middle_line;
@@ -40,9 +51,4 @@ private:
     sf::Sound sound_hit_paddle;
     sf::Sound sound_miss_ball;
     sf::Sound sound_hit_wall;
-
-    Scoreboard scoreboard;
-    PlayerPaddle playerPaddle;
-    AIPaddle aiPaddle;
-    Ball ball;
 };

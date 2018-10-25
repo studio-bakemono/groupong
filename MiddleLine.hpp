@@ -11,7 +11,7 @@ class MiddleLine {
         static const int LINE_COUNT = 16;
 
         sf::RectangleShape lines[LINE_COUNT];
-
+        
         MiddleLine() {
 
             for (int i = 0; i < LINE_COUNT; i++ ) { 

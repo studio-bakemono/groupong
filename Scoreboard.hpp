@@ -17,7 +17,8 @@ public:
   uint16_t score[PLAYER_COUNT] = {}; // Empty list inialization sets whole array to zero
 
 public:
-
+  Scoreboard(){
+  }
   Scoreboard(sf::Font& font) {
     for (int i = 0; i < PLAYER_COUNT; i++ ) { 
       playerScore[i].setFont(font);

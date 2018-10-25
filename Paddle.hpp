@@ -12,6 +12,7 @@ public:
   uint16_t score = 0;
   
 public:
+  Paddle(){}
   // Default colour to cyan, default position to zero. Position is at the end as
   // not to confuse the constuctor with multiple sf::Vector2f values (which it will) 
   explicit Paddle( sf::Vector2f size, sf::Color color = sf::Color::Cyan,
@@ -20,10 +21,9 @@ public:
     rect.setSize(size);
     rect.setFillColor(color);
     rect.setPosition( position );
-    
   }
 
-  virtual void update(sf::RenderWindow& window);
+  virtual void update();
   void render(sf::RenderWindow& window);
 
   

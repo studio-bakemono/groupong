@@ -6,6 +6,7 @@
 #include <SFML/Audio.hpp>
 
 #include <cstdint>
+#include <thread>
 #include <iostream>
 #include <string>
 
@@ -14,11 +15,29 @@
 #include "config.hpp"
 #include "Game.hpp"
 
+void fixed_main(volatile bool *running, World **render_world, std::mutex *render_world_mutex){
+  World fixed_game = **render_world;
+  sf::Clock clock;
+  while(*running){
+    fixed_game.update();
+    {
+      World *fresh_world = new World();
+      *fresh_world=fixed_game;
+      render_world_mutex->lock();
+      World *stale_game = *render_world;
+      *render_world = fresh_world;
+      render_world_mutex->unlock();
+      delete stale_game;
+    }
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000/UPDATE_RATE - clock.restart().asMilliseconds()));
+  }
+}
+
 int main()
 {
 
   sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "pong!", sf::Style::Default, sf::ContextSettings(0, 0, 8));
-  window.setFramerateLimit(FRAME_RATE);
 
   // Load the font used in the game
   sf::Font font;
@@ -29,6 +48,9 @@ int main()
   
   Game game(window, font);
   
+  volatile bool fixed_thread_running = true;
+  std::thread fixed_thread(fixed_main, &fixed_thread_running, &game.world, &game.world_mutex);
+
   while ( window.isOpen() ) {
     if ( window.hasFocus() ) {
       
@@ -41,15 +63,12 @@ int main()
 	else if (event.type == sf::Event::KeyPressed) {
 	  // std::cout << "Key pressed!" << std::endl; 
 	}
-      }
-
-      game.update(window);
-  
+      }  
       window.clear();
       game.render(window);
       window.display();
     }
   }
-
-  return 0;
+  fixed_thread_running=false;
+  fixed_thread.join();
 }
