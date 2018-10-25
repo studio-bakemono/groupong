@@ -4,32 +4,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "copy assets",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/build"
-            },
-            "linux": {
-                "command": "cp -r ../assets ."
-            },
-            "windows": {
-                "command": "xcopy /y ..\\assets .\\"
-            },
-        },
-        {
-            "label": "copy dlls",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/build"
-            },
-            "linux": {
-                "command": ""
-            },
-            "windows": {
-                "command": "xcopy /y ..\\SFML\\bin\\*.dll .\\"
-            }
-        },
-        {
             "label": "cmake",
             "type": "shell",
             "options": {
@@ -51,7 +25,7 @@
         {
             "label": "build game",
             "type": "shell",
-            "dependsOn": ["copy assets", "copy dlls", "cmake"],
+            "dependsOn": ["cmake"],
             "linux": {
                 "command": "make",
                 "options": {
