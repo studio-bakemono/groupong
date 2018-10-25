@@ -74,16 +74,14 @@ int main()
   // Each paddle's position is set seperately from constructor since it's position is
   // dependent on it's own size, which is set in the constructor.
 
-  PlayerPaddle playerPaddle( sf::Vector2f(20, 100),
-			     sf::Color::Red
+  Paddle playerPaddle( sf::Vector2f(20, 100),
+			     sf::Color::Red, sf::Keyboard::W, sf::Keyboard::S
 			     );
-  
   playerPaddle.setPosition(sf::Vector2f( 20, (WINDOW_HEIGHT/2 - (playerPaddle.getSize().y/2)) ));
-  
-  AIPaddle AIpaddle ( sf::Vector2f(20, 100),
-		      sf::Color::Blue
+
+  Paddle AIpaddle( sf::Vector2f(20, 100),
+		      sf::Color::Blue,sf::Keyboard::Up, sf::Keyboard::Down
 		      );
-  
   AIpaddle.setPosition( sf::Vector2f(WINDOW_WIDTH - (20+AIpaddle.getSize().x),
 				     WINDOW_HEIGHT/2 - (AIpaddle.getSize().y/2) ));
 
