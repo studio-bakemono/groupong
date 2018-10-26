@@ -141,12 +141,12 @@ int main()
       
     
     //Score update
-    if(ball.collider.left > WINDOW_WIDTH + ball.collider.width ) {
+    if(ball.collider.left + ball.collider.width*2/3 > WINDOW_WIDTH  ) {
       scoreboard.updateScore(0);
     	ball.reset(window);
 	    sound_miss_ball.play();
     }
-    if(ball.collider.left + ball.collider.width < 0) {
+    if(ball.collider.left + (ball.collider.width/3) < 0) {
 	    scoreboard.updateScore(1);
     	ball.reset(window);
     	sound_miss_ball.play();
