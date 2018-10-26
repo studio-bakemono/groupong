@@ -17,5 +17,5 @@ target_link_libraries(pong sfml-graphics sfml-audio)
 
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
-file(GLOB SFML_DLL "SFML/*.dll")
+file(GLOB SFML_DLL "SFML/bin/*.dll")
 file(COPY ${SFML_DLL} DESTINATION ${CMAKE_BINARY_DIR})

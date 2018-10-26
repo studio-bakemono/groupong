@@ -13,13 +13,7 @@
                 "command": "cmake ..",
             },
             "windows": {
-                "options": {
-                    "env": {
-                        "PATH": "%PATH:C:\\Program Files\\Git\\usr\\bin;=%",
-                        "SFML_DIR": "..\\SFML"
-                    }
-                },
-                "command": "cmake -G \"MinGW Makefiles\" .."
+                "command": "../.vscode/build_cmake"
             }
         },
         {
