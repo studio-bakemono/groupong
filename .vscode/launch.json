@@ -14,16 +14,21 @@
                 "cwd": "${workspaceFolder}/build",
                 "program": "${workspaceFolder}/build/pong",
             },
+            "osx": {
+                "cwd": "${workspaceFolder}/build",
+                "program": "${workspaceFolder}/build/pong",
+                "MIMode": "lldb"      
+            },
             "windows": {
                 "cwd": "${workspaceFolder}\\build\\",
                 "program": "${workspaceFolder}\\build\\pong.exe",
-                "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe"
+                "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
             },
+            "MIMode": "gdb",
             "args": [],
             "stopAtEntry": false,
             "environment": [],
             "externalConsole": false,
-            "MIMode": "gdb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
