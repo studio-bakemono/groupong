@@ -7,6 +7,8 @@ class AIPaddle : public Paddle {
 public:
   // Inheret Paddle's constructor
   using Paddle::Paddle;
+
+  AIpaddle() {}
   
   // void update(sf::RenderWindow& window) override {
   //   if(AIWantsToMoveUp()) {
