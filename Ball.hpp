@@ -15,7 +15,7 @@ public:
   
 public:
 
-  Ball(sf::Vector2f position, int radius = 30, 
+  Ball(sf::Vector2f position, float radius = 30.0f, 
     sf::Vector2f velocity = sf::Vector2f(-2,-2)):
     position(position),
     velocity(velocity)

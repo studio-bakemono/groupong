@@ -18,7 +18,7 @@ public:
     for (int i = 0; i < LINE_COUNT; i++ ) { 
       lines[i] = sf::RectangleShape(sf::Vector2f(4, 24));
       lines[i].setFillColor(sf::Color::White);
-      lines[i].setPosition(x / 2, i * 30 + 60);
+      lines[i].setPosition(float(x / 2), float(i * 30 + 60));
     }
   }
 
