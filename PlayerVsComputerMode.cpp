@@ -1,7 +1,7 @@
 #include "PlayerVsComputerMode.hpp"
+#include "Game.hpp"
 
-
-void PlayerVsCompState::onEnter(sf::RenderWindow& window) {
+void PlayerVsCompState::onEnter(Game *game) {
  
 
   if (!buffer_hit_paddle.loadFromFile("assets/ping_pong_8bit_beeep.wav")) {
@@ -21,6 +21,8 @@ void PlayerVsCompState::onEnter(sf::RenderWindow& window) {
   sound_miss_ball.setBuffer(buffer_miss_ball);
   sound_hit_wall.setBuffer(buffer_hit_wall);
 
+  sf::RenderWindow &window = game->window;
+
   // Pass font along to scoreboard
   scoreboard = Scoreboard(window, font);
   
@@ -30,7 +32,7 @@ void PlayerVsCompState::onEnter(sf::RenderWindow& window) {
   // dependent on it's own size, which is set in the constructor.
 
   
-  ball = Ball(sf::Vector2f(window.getSize().x/2, window.getSize().y/2));
+  ball = Ball(sf::Vector2f(float(window.getSize().x)/2.0f, float(window.getSize().y)/2.0f));
   
   playerPaddle = Paddle( sf::Vector2f(20, 100),
 			 sf::Color::Red, sf::Keyboard::W, sf::Keyboard::S
@@ -51,7 +53,7 @@ void PlayerVsCompState::onEvent() {
 
 }
 
-void PlayerVsCompState::update(sf::RenderWindow& window) {
+State *PlayerVsCompState::update(sf::RenderWindow& window) {
   playerPaddle.update(window);
   AIpaddle.update(window);
     
@@ -93,7 +95,7 @@ void PlayerVsCompState::update(sf::RenderWindow& window) {
     ball.reset(window);
     sound_miss_ball.play();
   }
-
+  return nullptr;
 }
 
 

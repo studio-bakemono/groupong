@@ -44,9 +44,9 @@ public:
   ~PlayerVsCompState() {
   }
 
-  void onEnter(sf::RenderWindow& window) override;
+  void onEnter(Game *game) override;
   void onEvent() override;
-  void update(sf::RenderWindow& window) override;
+  State *update(sf::RenderWindow& window) override;
   void render(sf::RenderWindow& window) override; 
   
 };
